@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientServerMain">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+         <menus>
+            <Menu mnemonicParsing="false" text="Перегляд">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Показати контакти" />
+                  <MenuItem mnemonicParsing="false" text="Показати розмови" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Розмова">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Нова розмова" />
+                  <MenuItem mnemonicParsing="false" text="Видалити розмову" />
+                  <MenuItem mnemonicParsing="false" text="Надіслати фото" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Налаштування" />
+            <Menu mnemonicParsing="false" text="Довідка">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Підтримка" />
+                  <MenuItem mnemonicParsing="false" text="Про local messenger" />
+                  <MenuItem mnemonicParsing="false" text="Konex у Facebook" />
+                  <MenuItem mnemonicParsing="false" text="Konex у Youtube" />
+              </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+   </top>
+</BorderPane>
