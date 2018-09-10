@@ -1,4 +1,6 @@
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -9,6 +11,10 @@ import java.io.IOException;
 
 public class ClientServerMain extends Application {
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     private Stage primaryStage;
     private BorderPane rootLayout;
 
@@ -17,9 +23,9 @@ public class ClientServerMain extends Application {
 
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Local Messenger");
-//        this.primaryStage.getIcons().add(new Image("file:resources/image/icon.png"));
 
         initRootLayout();
+        showChatView();
     }
 
     public void initRootLayout() {
@@ -31,6 +37,7 @@ public class ClientServerMain extends Application {
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -38,14 +45,20 @@ public class ClientServerMain extends Application {
 
     public void showChatView() throws IOException {
 
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(ClientServerMain.class.getResource("view/ChatView.fxml.fxml"));
-        AnchorPane personeOverview = (AnchorPane) loader.load();
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(ClientServerMain.class.getResource("view/ChatView.fxml"));
+            AnchorPane personOverview = (AnchorPane) loader.load();
 
-        rootLayout.setCenter(personeOverview);
+            rootLayout.setCenter(personOverview);
 
-        ChatController controller = loader.getController();
-        controller.setMain(this);
+            ChatController controller = loader.getController();
+            controller.setMain(this);
+            controller.upConnection();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public Stage getPrimaryStage() {
@@ -53,8 +66,7 @@ public class ClientServerMain extends Application {
         return primaryStage;
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+
+
 }
 

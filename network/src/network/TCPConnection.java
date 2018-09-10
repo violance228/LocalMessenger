@@ -45,7 +45,7 @@ public class TCPConnection  {
             output.flush();
         } catch (IOException e) {
             eventListener.onException(TCPConnection.this, e);
-
+            disconnect();
         }
     }
 

@@ -12,7 +12,7 @@
          <menus>
             <Menu mnemonicParsing="false" text="Перегляд">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Показати контакти" />
+                  <MenuItem mnemonicParsing="false" onAction="#showChatView" text="Показати контакти" />
                   <MenuItem mnemonicParsing="false" text="Показати розмови" />
                </items>
             </Menu>

@@ -1,112 +1,78 @@
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.text.Text;
+import network.TCPConnection;
+import network.TCPConnectionListener;
 
-public class ChatController {
-    @FXML
-    private TableView<Person> personTable;
-    @FXML
-    private TableColumn<Person, String> nameColunmn;
-    @FXML
-    private TableColumn<Person, String> surnameColumn;
+import java.io.IOException;
 
-    @FXML
-    private Label nameLabel;
-    @FXML
-    private Label surnameLable;
-    @FXML
-    private Label streetLable;
-    @FXML
-    private Label postalCodeLable;
-    @FXML
-    private Label cityLable;
-    @FXML
-    private Label birthdayLable;
+public class ChatController implements TCPConnectionListener {
 
-    private ClientServerMain main;
-
-    public Controller() { }
+    private final String IP_ADDR = "192.200.100.117";
+    private final int PORT = 6666;
 
     @FXML
-    private void initialize() {
-        nameColunmn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        surnameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+    private TextArea messege;
 
-        showPersonDetails(null);
+    @FXML
+    private TextArea log;
 
-        personTable.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> showPersonDetails(newValue)));
+    @FXML
+    private Label nickName;
 
-    }
+//    private ClientServerMain main;
+    private TCPConnection connection;
 
-    public void setMain(Main main) {
-        this.main = main;
-
-        personTable.setItems(main.getPersonData());
-    }
-
-    public void showPersonDetails(Person person) {
-        if(person != null) {
-            nameLabel.setText(person.getName());
-            surnameLable.setText(person.getSurname());
-            streetLable.setText(person.getStreet());
-            postalCodeLable.setText(Integer.toString(person.getPostalCode()));
-            cityLable.setText(person.getCity());
-            birthdayLable.setText(String.valueOf(person.getBirthday()));
-        } else {
-            nameLabel.setText("");
-            surnameLable.setText("");
-            streetLable.setText("");
-            postalCodeLable.setText("");
-            cityLable.setText("");
-            birthdayLable.setText("");
-        }
+    public void setMain(ClientServerMain main) {
+//        this.main = main;
     }
 
     @FXML
-    private void handleDeletePerson() {
+    public void actionPerformed() {
 
-        int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
+        String msg = messege.getText();
+        if (msg.equals("")) return;
+        messege.setText(null);
+
+        connection.sendString(nickName.getText() + " - " + msg);
+    }
+
+    private synchronized void printMsg(String msg) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                log.appendText(msg + "\n");
+            }
+        });
+    }
+
+    @Override
+    public void onConnectionReady(TCPConnection tcpConnection) {
+        printMsg("Connection ready...");
+    }
+
+    @Override
+    public void onReceivedString(TCPConnection tcpConnection, String value) {
+        printMsg(value);
+    }
+
+    @Override
+    public void onDisconnect(TCPConnection tcpConnection) {
+        printMsg("Connection close...");
+    }
+
+    @Override
+    public void onException(TCPConnection tcpConnection, Exception e) {
+        printMsg("Connection exception " + e);
+    }
+
+    public void upConnection() {
         try {
-            if (selectedIndex >= 0) {
-                personTable.getItems().remove(selectedIndex);
-            } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.initOwner(main.getPrimaryStage());
-                alert.setTitle("No selection");
-                alert.setHeaderText("No Person Selected");
-                alert.setContentText("Please select a person in the table.");
-
-                alert.showAndWait();
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void handleNewPerson() {
-        Person tempPersone = new Person();
-
-        boolean okClicked = main.showPersonEditDialog(tempPersone);
-        if (okClicked) {
-            main.getPersonData().add(tempPersone);
-        }
-    }
-
-    @FXML
-    private void handleEditPerson() {
-        Person selectedPersone = personTable.getSelectionModel().getSelectedItem();
-        if (selectedPersone != null) {
-            boolean okClicked = main.showPersonEditDialog(selectedPersone);
-            if (okClicked) {
-                showPersonDetails(selectedPersone);
-            }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.initOwner(main.getPrimaryStage());
-            alert.setTitle("No Selection");
-            alert.setHeaderText("No Person Selected");
-            alert.setContentText("Please select a persone in the table.");
-
-            alert.showAndWait();
+            connection = new TCPConnection(this, IP_ADDR, PORT);
+        } catch (IOException e) {
+            printMsg("Connection exception " + e);
         }
     }
 }

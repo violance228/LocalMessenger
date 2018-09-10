@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="350.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ChatController">
    <children>
       <SplitPane dividerPositions="0.29797979797979796" layoutX="153.0" layoutY="70.0" prefHeight="300.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
@@ -24,9 +24,10 @@
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <Label layoutX="104.0" layoutY="51.0" text="Person Details" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                  <Button layoutX="351.0" layoutY="259.0" mnemonicParsing="false" prefHeight="50.0" text="Надіслати" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-                  <TextArea layoutX="14.0" layoutY="248.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="50.0" wrapText="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="80.0" />
+                  <Label fx:id="nickName" layoutX="104.0" layoutY="51.0" text="Person Details" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                  <Button layoutX="351.0" layoutY="259.0" mnemonicParsing="false" onAction="#actionPerformed" prefHeight="50.0" text="Надіслати" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+                  <TextArea fx:id="messege" layoutX="14.0" layoutY="248.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="50.0" wrapText="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="80.0" />
+                  <TextArea fx:id="log" editable="false" layoutX="81.0" layoutY="48.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="30.0" />
                </children>
             </AnchorPane>
          </items>

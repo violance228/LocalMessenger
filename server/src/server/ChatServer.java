@@ -6,6 +6,7 @@ import network.TCPConnectionListener;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ChatServer implements TCPConnectionListener {
 
@@ -13,15 +14,18 @@ public class ChatServer implements TCPConnectionListener {
         new ChatServer();
     }
 
-    private final ArrayList<TCPConnection> connectionsList = new ArrayList<>();
+    private final List<TCPConnection> connectionsList = new ArrayList<>();
+
+    private TCPConnection tcpConnection;
 
     private ChatServer() {
         System.err.println("Server started .......");
-        try(ServerSocket serverSocket = new ServerSocket(8888)) {
+        try(ServerSocket serverSocket = new ServerSocket(6666)) {
             while (true) {
                 try {
                     new TCPConnection(this, serverSocket.accept());
                 } catch (IOException e) {
+                    tcpConnection.disconnect();
                     System.out.println("TCPConnection Exception: " + e);
                 }
             }
